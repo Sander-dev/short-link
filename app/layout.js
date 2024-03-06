@@ -1,7 +1,23 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+// Components
+import Header from "./components/Header";
+
+import { usePathname } from "next/navigation";
+
+
 const inter = Inter({ subsets: ["latin"] });
+
+// Consertar - Para nao aparecer o Header na pagina de login
+// -----
+// function hLogin() {
+//   if (pathname == {login}) {
+
+//   }else{
+//     <Header></Header>
+//   }
+// }
 
 export const metadata = {
   title: "Create Next App",
@@ -9,9 +25,16 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // Consertar - Para nao aparecer o Header na pagina de login
+  // -----
+  // const pathname = usePathname();
+  // const login = '/login'
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header></Header>
+        {children}
+      </body>
     </html>
   );
 }
