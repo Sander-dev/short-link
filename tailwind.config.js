@@ -15,6 +15,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'logooficial': "url('/LogoOficialCut.png')",
+        'capivara': "url('/capivara.png')",
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],

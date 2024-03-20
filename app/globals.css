@@ -4,3 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.my-custom-height {
+    height: calc(100% - 96px); /* Substitua []px pelo valor que você deseja diminuir */
+  }

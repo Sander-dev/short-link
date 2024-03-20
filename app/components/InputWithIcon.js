@@ -3,11 +3,10 @@
 import React from 'react';
 import Image from 'next/image'
 import { TERipple } from 'tw-elements-react';
-import LinkIcon from '@/public/LinkIcon.png'
 
 
 
-export default function SearchWithButtonExample() {
+export default function SearchWithButtonExample({ src }) {
     return (
         <div className=" mb-3 relative flex w-full items-stretch">
             {/* <!--Icon Link--> */}
@@ -17,8 +16,8 @@ export default function SearchWithButtonExample() {
                 <Image
                     width={24}
                     height={10}
-                    alt='Logo da CapiCloud'
-                    src={LinkIcon}
+                    alt='Link Icon logo'
+                    src={src}
                     className=''>
                 </Image>
             </div>
