@@ -1,7 +1,7 @@
 'use client'
 
-import Image from "next/image";
 import { useState } from 'react';
+import axios from 'axios';
 
 // tw-elements
 import "tw-elements-react/dist/css/tw-elements-react.min.css";
@@ -10,18 +10,39 @@ import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import InputWithIcon from './components/InputWithIcon'
 import ButtonLarge from "./components/ButtonLarge";
 import Circle from "./components/Circle";
-import Input from "./components/Input";
 import LinkIcon from '@/public/LinkIcon.png'
 import Copy from '@/public/Copy.png'
 
 export default function Home() {
 
   const [showInput, setShowInput] = useState(false);
+  const [shortLink, setShortLink] = useState();
+  const [longLink, setLongLink] = useState();
+  const [error, setError] = useState('');
 
-  const toggleComponent = () => {
-    setShowInput(true);
-  };
+  const handleLink = async () => {
 
+    const acess_token = window.localStorage.getItem('acess_token');
+    if(acess_token){
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/link/short_link_auth', {
+          link_long: longLink
+        }, { // moved headers outside the data object
+          headers: {
+            'Authorization': `Bearer ${acess_token}`
+          }
+        });
+        setShortLink(response.data.link_short);
+        setShowInput(true);
+  } catch (error) {
+    setError(error.response.data.message); 
+    console.error('Erro ao encurtar link:', error);
+}
+}
+
+}
+
+console.log(shortLink);
   return (
     <main className='flex flex-col'>
       <div className='flex container-sm lg:container flex-col p-16'>
@@ -29,11 +50,11 @@ export default function Home() {
         <h1 className='font-montserrat text-5xl'>Encurtador de link</h1>
         <div className='mt-20 ml-2 w-full '>
           <div className='w-5/6 sm:w-4/6 md:w-3/6 lg:w-2/6'>
-            <InputWithIcon src={LinkIcon}></InputWithIcon>
+            <InputWithIcon src={LinkIcon} onChange={(e) => setLongLink(e.target.value)} value={longLink}></InputWithIcon>
             <div className=''>
-              <ButtonLarge onClick={toggleComponent} text='Encurte seu link aqui'></ButtonLarge>
+              <ButtonLarge onClick={handleLink} text='Encurte seu link aqui'></ButtonLarge>
             </div>
-            {showInput ? <InputWithIcon src={Copy}/> : ''}
+            {showInput ? <InputWithIcon src={Copy} value={shortLink}/> : ''}
           </div>
         </div>
       </div>
