@@ -26,7 +26,7 @@ export default function Home({ pathname }) {
     const access_token = window.localStorage.getItem('access_token');
     if (access_token) {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/link/short_link_auth', {
+        const response = await axios.post('http://127.0.0.1:8000/link/short_link', {
           link_long: longLink
         }, {
           headers: {

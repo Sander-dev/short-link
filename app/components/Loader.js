@@ -6,17 +6,27 @@ const Loader = () => {
     const [offset, setOffset] = useState(0);
 
     useEffect(() => {
+        const access_token = window.localStorage.getItem('access_token');
         const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=5`
-                );
-                setData((prevData) => [...prevData, ...response.data]);
-            } catch (error) {
-                console.log(error);
+            if (access_token) {
+                try {
+                    const response = await axios.get(
+                        `http://localhost:8000/link/me_link_short/`,{
+                        headers: {
+                            'Authorization': `Bearer ${access_token}`
+                        }
+                    }
+                    );
+                    setData((prevData) => [...prevData, ...response.data]);
+                    console.log(response.data)
+                } catch (error) {
+                    console.log(error);
+                }
             }
         };
         fetchData();
+
+        
 
         const handleScroll = (e) => {
             const scrollHeight = e.target.documentElement.scrollHeight;

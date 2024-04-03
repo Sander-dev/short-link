@@ -10,8 +10,8 @@ import Input from "../components/Input";
 
 export default function login() {
 
-    const [username, setUsername] = useState("carlosmiguel.dsa12@gmail.com");
-    const [password, setPassword] = useState("123");
+    const [username, setUsername] = useState("carlosmiguel.sa@hotmail.com");
+    const [password, setPassword] = useState("321");
     const [error, setError] = useState('');
 
     const handleLogin = async () => {
@@ -20,8 +20,8 @@ export default function login() {
                 username: username,
                 password: password
             });
-            const acess_token = response.data.acess_token
-            localStorage.setItem("acess_token", acess_token)
+            const access_token = response.data.access_token
+            localStorage.setItem("access_token", access_token)
             console.log(response.data);
         } catch (error) {
             setError(error.response.data.message);
