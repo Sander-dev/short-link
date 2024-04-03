@@ -5,9 +5,14 @@ import Image from 'next/image'
 import LogoSmallW from '@/public/LogoSmallW.png'
 
 import { useRouter } from 'next/navigation'
+import { usePathname } from "next/navigation"
 
 
 export default function Header() {
+
+    const pathname = usePathname()
+    
+
     const router = useRouter()
     return (
         <div className='flex bg-gradient-to-t from-blak to-brown items-center h-24 w-screen'>
@@ -28,7 +33,8 @@ export default function Header() {
                         <Button route='/quem-somos' text='Quem Somos'></Button>
                     </div>
                     <div>
-                        <Button route='/login' text='Entrar'></Button>
+                        {(pathname === "/login" ?  "" : <Button route='/login' text='Entrar' /> )}
+                        
                     </div>
                 </div>
             </div>

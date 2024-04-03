@@ -7,6 +7,8 @@ module.exports = {
   ],
   theme: {
     colors: {
+      brown2: '#6a4d3b',
+      white: '#dddddd',
       brown: '#5b514a',
       blak: '#3c3c3c',
       circle: '#262626',

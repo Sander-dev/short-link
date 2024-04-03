@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+
 // tw-elements
 import "tw-elements-react/dist/css/tw-elements-react.min.css";
 
@@ -13,7 +14,7 @@ import Circle from "./components/Circle";
 import LinkIcon from '@/public/LinkIcon.png'
 import Copy from '@/public/Copy.png'
 
-export default function Home() {
+export default function Home({ pathname }) {
 
   const [showInput, setShowInput] = useState(false);
   const [shortLink, setShortLink] = useState();
@@ -22,27 +23,27 @@ export default function Home() {
 
   const handleLink = async () => {
 
-    const acess_token = window.localStorage.getItem('acess_token');
-    if(acess_token){
+    const access_token = window.localStorage.getItem('access_token');
+    if (access_token) {
       try {
         const response = await axios.post('http://127.0.0.1:8000/link/short_link_auth', {
           link_long: longLink
-        }, { // moved headers outside the data object
+        }, {
           headers: {
-            'Authorization': `Bearer ${acess_token}`
+            'Authorization': `Bearer ${access_token}`
           }
         });
         setShortLink(response.data.link_short);
         setShowInput(true);
-  } catch (error) {
-    setError(error.response.data.message); 
-    console.error('Erro ao encurtar link:', error);
-}
-}
+      } catch (error) {
+        setError(error.response.data.message);
+        console.error('Erro ao encurtar o link:', error);
+      }
+    }
 
-}
+  }
 
-console.log(shortLink);
+
   return (
     <main className='flex flex-col'>
       <div className='flex container-sm lg:container flex-col p-16'>
@@ -54,7 +55,7 @@ console.log(shortLink);
             <div className=''>
               <ButtonLarge onClick={handleLink} text='Encurte seu link aqui'></ButtonLarge>
             </div>
-            {showInput ? <InputWithIcon src={Copy} value={shortLink}/> : ''}
+            {showInput ? <InputWithIcon src={Copy} value={shortLink} /> : ''}
           </div>
         </div>
       </div>
