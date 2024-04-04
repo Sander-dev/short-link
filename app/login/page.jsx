@@ -7,6 +7,7 @@ import axios from "axios";
 // Components
 import ButtonLarge from "../components/ButtonLarge"
 import Input from "../components/Input";
+import LinkPhrase from "../components/LinkPhrase";
 
 export default function login() {
 
@@ -39,7 +40,7 @@ export default function login() {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Sign in to your account
                             </h1>
-                            <form className="space-y-4 md:space-y-5" action="/">
+                            <form className="space-y-4 md:space-y-5" action="">
                                 <div className='w-full'>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                     <div className='w-full'>
@@ -52,11 +53,11 @@ export default function login() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Não tem uma conta? <a href="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Registrar</a>
+                                        Não tem uma conta? <LinkPhrase route='/register' text='Registrar'></LinkPhrase>
                                     </p>
                                 </div>
                                 <ButtonLarge onClick={handleLogin} text="Entrar"></ButtonLarge>
-                                <a href="/forgot-password" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Esqueceu a senha?</a>
+                                <LinkPhrase route='/forgot-password' text='Esqueceu a Senha?'></LinkPhrase>
                             </form>
                         </div>
                     </div>

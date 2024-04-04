@@ -7,31 +7,29 @@ import axios from "axios";
 // Components
 import ButtonLarge from "../components/ButtonLarge"
 import Input from "../components/Input";
+import LinkPhrase from "../components/LinkPhrase";
 
 export default function Register() {
 
-    const [username, setUsername] = useState("carlosmiguel.dsa12@gmail.com");
-    const [password, setPassword] = useState("123");
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
     const [error, setError] = useState('');
 
-    const handleLogin = async () => {
+    const handleRegister = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/login', {
+            const response = await axios.post('http://127.0.0.1:8000/user/register', {
                 username: username,
                 password: password
             });
-            const acess_token = response.data.acess_token
-            localStorage.setItem("acess_token", acess_token)
             console.log(response.data);
         } catch (error) {
             setError(error.response.data.message);
-            console.error('Erro ao fazer login:', error);
+            console.error('Erro ao fazer registro:', error);
         }
     }
 
     return (
         <div className='flex'>
-            <button onClick={handleLogin} className="w-10 h-10 bg-blak"></button>
             <section className="flex w-[50%] mt-12 bg-gray-50 dark:bg-gray-900 max-lg:w-screen justify-center items-center">
                 <div className="flex flex-col px-6 py-8 mx-auto lg:py-0 w-[80%] sm:w-[70%] md:w-[60%] lg:w-[75%] justify-center items-center]">
                     <div className="bg-white rounded-lg dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
@@ -56,11 +54,10 @@ export default function Register() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Já tem uma conta? <a href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Entrar</a>
+                                        Já tem uma conta? <LinkPhrase route='/login' text='Entrar' ></LinkPhrase>
                                     </p>
                                 </div>
-                                <ButtonLarge onClick={handleLogin} text="Sign in"></ButtonLarge>
-
+                                <ButtonLarge onClick={handleRegister} text="Registrar"></ButtonLarge>
                             </form>
                         </div>
                     </div>
