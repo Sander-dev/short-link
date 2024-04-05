@@ -14,14 +14,15 @@ import Circle from "./components/Circle";
 import LinkIcon from '@/public/LinkIcon.png'
 import Copy from '@/public/Copy.png'
 
-export default function Home({ pathname }) {
+export default function Home() {
 
   const [showInput, setShowInput] = useState(false);
   const [shortLink, setShortLink] = useState();
   const [longLink, setLongLink] = useState();
   const [error, setError] = useState('');
 
-  const handleLink = async () => {
+  const handleLink = async (event) => {
+    event.preventDefault();
 
     const access_token = window.localStorage.getItem('access_token');
     if (access_token) {
@@ -33,6 +34,7 @@ export default function Home({ pathname }) {
             'Authorization': `Bearer ${access_token}`
           }
         });
+        console.log(response.data)
         setShortLink(response.data.link_short);
         setShowInput(true);
       } catch (error) {
@@ -48,16 +50,18 @@ export default function Home({ pathname }) {
     <main className='flex flex-col'>
       <div className='flex container-sm lg:container flex-col p-16'>
         {/* TEXTO TITULO DA PAGINA */}
-        <h1 className='font-montserrat text-5xl'>Encurtador de link</h1>
-        <div className='mt-20 ml-2 w-full '>
-          <div className='w-5/6 sm:w-4/6 md:w-3/6 lg:w-2/6'>
-            <InputWithIcon src={LinkIcon} onChange={(e) => setLongLink(e.target.value)} value={longLink}></InputWithIcon>
-            <div className=''>
-              <ButtonLarge onClick={handleLink} text='Encurte seu link aqui'></ButtonLarge>
+        <form onSubmit={handleLink}>
+          <h1 className='font-montserrat text-5xl'>Encurtador de link</h1>
+          <div className='mt-20 ml-2 w-full '>
+            <div className='w-5/6 sm:w-4/6 md:w-3/6 lg:w-2/6'>
+              <InputWithIcon src={LinkIcon} onChange={(e) => setLongLink(e.target.value)} value={longLink}></InputWithIcon>
+              <div className=''>
+                <ButtonLarge text='Encurte seu link aqui'></ButtonLarge>
+              </div>
+              {showInput ? <InputWithIcon src={Copy} value={shortLink} /> : ''}
             </div>
-            {showInput ? <InputWithIcon src={Copy} value={shortLink} /> : ''}
           </div>
-        </div>
+        </form>
       </div>
       {/* IMAGEM LOGO CAPI CLOUD */}
       <div className='max-lg:invisible bg-cover lg:bg-logooficial w-[500px] h-[400px] absolute right-40 mt-14'></div>

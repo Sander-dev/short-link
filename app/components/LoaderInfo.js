@@ -10,12 +10,14 @@ const Loader = () => {
             if (access_token) {
                 try {
                     const response = await axios.get(
-                        `http://localhost:8000/link/me_link_short/`, {
+                        `http://localhost:8000/me_click_short`, {
                         headers: {
                             'Authorization': `Bearer ${access_token}`
+                        },
+                        params: {
+                            short_link: "http://127.0.0.1:8000/l/G1pDW"
                         }
-                    }
-                    );
+                    });
                     setData(response.data);
                     console.log(response.data)
                 } catch (error) {

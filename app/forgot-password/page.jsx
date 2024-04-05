@@ -10,22 +10,39 @@ import Input from "../components/Input";
 
 export default function ForgotPassword() {
 
-    const [username, setUsername] = useState("carlosmiguel.dsa12@gmail.com");
-    const [password, setPassword] = useState("123");
+    const [userEmail, setUserEmail] = useState();
+    const [newPassword, setNewPassword] = useState();
     const [error, setError] = useState('');
 
-    const handleLogin = async () => {
+    const handleResetPassword = async (event) => {
+        event.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/login', {
-                username: username,
-                password: password
+            const response = await axios.patch('http://127.0.0.1:8000/user/reset_password', {
+                user_email: userEmail,
+                new_password: newPassword
             });
-            const acess_token = response.data.acess_token
-            localStorage.setItem("acess_token", acess_token)
-            console.log(response.data);
+            console.log(response.data)
         } catch (error) {
             setError(error.response.data.message);
-            console.error('Erro ao fazer login:', error);
+            console.error('Erro ao resetar senha:', error);
+        }
+    }
+
+    const [code, setCode] = useState();
+
+    const handleConfirmCode = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/user/valid_reset', {
+                params: {
+                    email: userEmail,
+                    code: code
+                }
+            });
+            console.log(response.data)
+        } catch (error) {
+            setError(error.response.data.message);
+            console.error('Erro ao resetar senha:', error);
         }
     }
 
@@ -40,20 +57,27 @@ export default function ForgotPassword() {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Redefinir Senha
                             </h1>
-                            <form className="space-y-4 md:space-y-5" action="/">
+                            <form onSubmit={handleResetPassword} className="space-y-4 md:space-y-5">
                                 <div className='w-full'>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                     <div className='w-full'>
-                                        <Input text="Email" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                        <Input text="Email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
                                     </div>
                                 </div>
                                 <div>
-                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nova Senha</label>
-                                    <Input type="password" text="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                    <label htmlFor="password" className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmar Nova Senha</label>
-                                    <Input type="password" text="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nova senha</label>
+                                    <Input type="password" text="Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                    {/* <label htmlFor="password" className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmar Nova Senha</label>
+                                    <Input type="password" text="Password" value={password} onChange={(e) => setPassword(e.target.value)} /> */}
                                 </div>
-                                <ButtonLarge onClick={handleLogin} text="Receber Código"></ButtonLarge>
+                                <ButtonLarge text="Enviar Código"></ButtonLarge>
+                            </form>
+                            <form onSubmit={handleConfirmCode} className="space-y-4 md:space-y-5">
+                                <div>
+                                    <label htmlFor="code" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Insira o código</label>
+                                    <Input type="input" text="Código" value={code} onChange={(e) => setCode(e.target.value)} />
+                                </div>
+                                <ButtonLarge text="Confirmar Código"></ButtonLarge>
                             </form>
                         </div>
                     </div>

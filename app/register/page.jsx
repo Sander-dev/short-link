@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useRouter } from 'next/navigation';
 
 // Components
 import ButtonLarge from "../components/ButtonLarge"
@@ -10,18 +10,24 @@ import Input from "../components/Input";
 import LinkPhrase from "../components/LinkPhrase";
 
 export default function Register() {
+    const rota = "/login"
+    const router = useRouter()
 
-    const [username, setUsername] = useState();
+    const [email, setEmail] = useState();
+    const [name, setName] = useState();
     const [password, setPassword] = useState();
     const [error, setError] = useState('');
-
-    const handleRegister = async () => {
+    
+    const handleRegister = async (event) => {
+        event.preventDefault();
+        
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/register', {
-                username: username,
+                email: email,
+                name: name,
                 password: password
             });
-            console.log(response.data);
+            router.push(rota);
         } catch (error) {
             setError(error.response.data.message);
             console.error('Erro ao fazer registro:', error);
@@ -35,29 +41,36 @@ export default function Register() {
                     <div className="bg-white rounded-lg dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                Sign up your account
+                                Registre sua Conta
                             </h1>
-                            <form className="space-y-4 md:space-y-5" action="/">
+                            <form onSubmit={handleRegister} className="space-y-4 md:space-y-5">
                                 <div className='w-full'>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
                                     <div className='w-full'>
-                                        <Input text="Email" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                        <Input type="input" text="Nome" value={name} onChange={(e) => setName(e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className='w-full'>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <div className='w-full'>
+                                        <Input type="input" text="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                     </div>
                                 </div>
                                 <div className="">
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                                     <Input type="password" text="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </div>
-                                <div className="">
+                                {/* <div className="">
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm your password</label>
                                     <Input type="password" text="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                </div>
+                                </div> */}
                                 <div className="flex items-center justify-between">
                                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                         Já tem uma conta? <LinkPhrase route='/login' text='Entrar' ></LinkPhrase>
                                     </p>
                                 </div>
-                                <ButtonLarge onClick={handleRegister} text="Registrar"></ButtonLarge>
+
+                                <ButtonLarge text="Registrar"></ButtonLarge>
                             </form>
                         </div>
                     </div>
