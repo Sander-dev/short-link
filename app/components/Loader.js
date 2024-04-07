@@ -10,7 +10,7 @@ const Loader = () => {
             if (access_token) {
                 try {
                     const response = await axios.get(
-                        `http://localhost:8000/link/me_link_short/`, {
+                        `http://localhost:8000/api/v1/link/my-link-short`, {
                         headers: {
                             'Authorization': `Bearer ${access_token}`
                         }

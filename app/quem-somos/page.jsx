@@ -9,7 +9,6 @@ export default function QuemSomos() {
         <UserGit url="https://api.github.com/users/KarMiguel"></UserGit>
         <UserGit url="https://api.github.com/users/Sander-dev" ></UserGit>
         <UserGit url="https://api.github.com/users/Aristeu13" ></UserGit>
-        <UserGit url="https://api.github.com/users/ggriffinxd" ></UserGit>
     </main>
   );
 }

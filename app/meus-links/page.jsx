@@ -1,8 +1,13 @@
 'use client'
 
 import Loader from "../components/Loader";
+import LimitPhrase from "../components/LimitPhrase";
+import ButtonClose from "../components/ButtonClose";
 
 export default function MyPage() {
+    const maxLength = 40;
+
+
     const data = Loader();
 
     return (
@@ -13,17 +18,20 @@ export default function MyPage() {
                         <table className="min-w-full text-center text-sm rounded-lg">
                             <thead className="border-b bg-neutral-50 font-medium dark:border-neutral-500 dark:text-neutral-800">
                                 <tr>
-                                    <th scope="col" className="px-6 py-4">#</th>
-                                    <th scope="col" className="px-6 py-4">Title</th>
-                                    <th scope="col" className="px-6 py-4">Price</th>
+                                    <th scope="col" className="px-6 py-4">Link Longo</th>
+                                    <th scope="col" className="px-6 py-4">Link Encurtado</th>
+                                    <th scope="col" className="px-6 py-4">Cliques</th>
+                                    <th scope="col" className="px-6 py-4">Excluir</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.map((item, index) => (
                                     <tr key={index} className="border-b dark:border-neutral-500">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">{item.link_long}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">{item.short_link}</td>
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium"><a href={item.link_long} target="_blank"><LimitPhrase text={item.link_long} maxLength={maxLength} /></a></td>
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium"><a href={item.short_link} target="_blank"><LimitPhrase text={item.short_link} maxLength={maxLength} /></a></td>
                                         <td className="whitespace-nowrap px-6 py-4">{item.qtd_clicks}</td>
+                                        Continuar AQUI
+                                        <td className="whitespace-nowrap px-6 py-4"><ButtonClose></ButtonClose></td>
 
                                     </tr>
                                 ))}

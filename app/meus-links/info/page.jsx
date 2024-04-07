@@ -13,6 +13,7 @@ export default function MyPage() {
         <div className="flex justify-center">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 w-[80%]">
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                    PEGAR CARDS DO TW-ELEMENTS
                     <div className="overflow-hidden">
                         <table className="min-w-full text-center text-sm rounded-lg">
                             <thead className="border-b bg-neutral-50 font-medium dark:border-neutral-500 dark:text-neutral-800">

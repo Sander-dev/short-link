@@ -8,30 +8,55 @@ import { useRouter } from 'next/navigation';
 import ButtonLarge from "../components/ButtonLarge"
 import Input from "../components/Input";
 import LinkPhrase from "../components/LinkPhrase";
+import Alert from "../components/Alert";
 
 export default function Register() {
     const rota = "/login"
     const router = useRouter()
 
-    const [email, setEmail] = useState();
-    const [name, setName] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    
+    const [showError, setShowError] = useState(false);
+
     const handleRegister = async (event) => {
         event.preventDefault();
-        
+
+        if (!name.trim()) {
+            setError("Campo vazio, insira um nome para registrar");
+            setShowError(true);
+            return;
+        } else if (!email.trim() || !validateEmail(email)) {
+            setError("Insira um email válido para registrar");
+            setShowError(true);
+            return;
+        } else if (!password.trim() || password.length < 8) {
+            setError("A senha deve ter no mínimo 8 caracteres");
+            setShowError(true);
+            return;
+        }
+
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/register', {
+            const response = await axios.post('http://127.0.0.1:8000/api/v1/user/register', {
                 email: email,
                 name: name,
                 password: password
             });
-            router.push(rota);
+            setShowError(false);
         } catch (error) {
-            setError(error.response.data.message);
+            setError(error.response.data.detail);
+            setShowError(true);
             console.error('Erro ao fazer registro:', error);
+        }finally {
+            router.push(rota);
         }
+    }
+
+    // Função para validar o formato do email
+    const validateEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
     }
 
     return (
@@ -69,8 +94,10 @@ export default function Register() {
                                         Já tem uma conta? <LinkPhrase route='/login' text='Entrar' ></LinkPhrase>
                                     </p>
                                 </div>
-
                                 <ButtonLarge text="Registrar"></ButtonLarge>
+                                <div>
+                                    {showError && <Alert alert="error" text={error} />}
+                                </div>
                             </form>
                         </div>
                     </div>

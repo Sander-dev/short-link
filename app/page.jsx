@@ -11,65 +11,85 @@ import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import InputWithIcon from './components/InputWithIcon'
 import ButtonLarge from "./components/ButtonLarge";
 import Circle from "./components/Circle";
-import LinkIcon from '@/public/LinkIcon.png'
+import Paste from '@/public/Paste.png'
 import Copy from '@/public/Copy.png'
+import Alert from './components/Alert';
+import UseCopy from './components/UseCopy';
+import UsePaste from './components/UsePaste';
 
 export default function Home() {
 
+  const pasteFromClipboard = UsePaste();
+  const copyToClipboard = UseCopy();
+
   const [showInput, setShowInput] = useState(false);
-  const [shortLink, setShortLink] = useState();
-  const [longLink, setLongLink] = useState();
+  const [shortLink, setShortLink] = useState('');
+  const [longLink, setLongLink] = useState('');
   const [error, setError] = useState('');
+  const [showError, setShowError] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+
 
   const handleLink = async (event) => {
     event.preventDefault();
 
-    const access_token = window.localStorage.getItem('access_token');
-    if (access_token) {
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/link/short_link', {
+    if (!longLink.trim()) {
+      setError("Insira um link válido para encurtar");
+      setShowInput(false);
+      setShowError(true);
+      return;
+    }
+
+    try {
+      const access_token = window.localStorage.getItem('access_token');
+      let response;
+      if (access_token) {
+        response = await axios.post('http://127.0.0.1:8000/api/v1/link/shorten-link', {
           link_long: longLink
         }, {
           headers: {
             'Authorization': `Bearer ${access_token}`
           }
         });
-        console.log(response.data)
-        setShortLink(response.data.link_short);
-        setShowInput(true);
-      } catch (error) {
-        setError(error.response.data.message);
-        console.error('Erro ao encurtar o link:', error);
+      } else {
+        setShowInfo(true);
+        response = await axios.post('http://127.0.0.1:8000/api/v1/link/shorten-link-no-auth', {
+          link_long: longLink
+        });
       }
+      setShortLink(response.data.link_short);
+      setShowInput(true);
+      setShowError(false);
+    } catch (error) {
+      setError(error.response.data.detail);
+      setShowInput(false);
+      setShowError(true);
     }
-
-  }
+  };
 
 
   return (
     <main className='flex flex-col'>
       <div className='flex container-sm lg:container flex-col p-16'>
-        {/* TEXTO TITULO DA PAGINA */}
         <form onSubmit={handleLink}>
           <h1 className='font-montserrat text-5xl'>Encurtador de link</h1>
           <div className='mt-20 ml-2 w-full '>
             <div className='w-5/6 sm:w-4/6 md:w-3/6 lg:w-2/6'>
-              <InputWithIcon src={LinkIcon} onChange={(e) => setLongLink(e.target.value)} value={longLink}></InputWithIcon>
+              <InputWithIcon src={Paste} onChange={(e) => setLongLink(e.target.value)} value={longLink}></InputWithIcon>
               <div className=''>
                 <ButtonLarge text='Encurte seu link aqui'></ButtonLarge>
               </div>
-              {showInput ? <InputWithIcon src={Copy} value={shortLink} /> : ''}
+              {showError && <Alert alert="error" text={error} />}
+              {showInput && <InputWithIcon onClick={() => copyToClipboard(shortLink)} src={Copy} value={shortLink} />}
+              {showInfo && <Alert alert="info" text="Ao fazer login, você terá acesso privilegiado a estatísticas detalhadas sobre quem clicou nos seus links" title="Aviso!" />}
             </div>
           </div>
         </form>
       </div>
-      {/* IMAGEM LOGO CAPI CLOUD */}
       <div className='max-lg:invisible bg-cover lg:bg-logooficial w-[500px] h-[400px] absolute right-40 mt-14'></div>
-      {/* CIRCULOS*/}
       <div className='flex w-screen mt-28 justify-around'>
         <div>
           <Circle></Circle>
-          {/* Continuar AQUI, espaçamento do mesmo tamanho com os paragrafos */}
           <p>lorem meu pau 1</p>
         </div>
         <div>

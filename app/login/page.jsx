@@ -9,31 +9,46 @@ import { useRouter } from 'next/navigation';
 import ButtonLarge from "../components/ButtonLarge"
 import Input from "../components/Input";
 import LinkPhrase from "../components/LinkPhrase";
+import Alert from '../components/Alert';
+
 
 export default function login() {
     const rota = "/"
     const router = useRouter()
 
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showError, setShowError] = useState(false);
 
     const handleLogin = async (event) => {
         event.preventDefault();
 
+        if (!username.trim()) {
+            setError("Campo vazio, insira um email válido para entrar");
+            setShowError(true);
+            return;
+        } else if (!password.trim()) {
+            setError("Campo vazio, insira uma senha válida para entrar");
+            setShowError(true);
+            return;
+        }
+
+
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/login', {
+            const response = await axios.post('http://127.0.0.1:8000/api/v1/user/login', {
                 username: username,
                 password: password
             });
+            setShowError(false);
             router.push(rota);
 
             const access_token = response.data.access_token
             localStorage.setItem("access_token", access_token)
 
-            console.log('Access token saved:', access_token); // Verificar se o token de acesso está sendo corretamente salvo no localStorage
         } catch (error) {
-            setError(error.response.data.message);
+            setError(error.response.data.detail);
+            setShowError(true);
             console.error('Erro ao fazer login:', error);
         }
     }
@@ -65,8 +80,12 @@ export default function login() {
                                 </div>
                                 <ButtonLarge text="Entrar"></ButtonLarge>
                                 <LinkPhrase route='/forgot-password' text='Esqueceu a Senha?'></LinkPhrase>
+                                <div>
+                                    {showError && <Alert alert="error" text={error} />}
+                                </div>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </section>
