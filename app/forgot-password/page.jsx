@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import ButtonLarge from "../components/ButtonLarge"
 import Input from "../components/Input";
 import Alert from "../components/Alert";
-import Loading from "@/public/Loading.gif"
+import Spinner from "../components/Spinner";
 
 export default function ForgotPassword() {
 
@@ -124,12 +124,7 @@ export default function ForgotPassword() {
                             )}
                             <div className="flex justify-center">
                                 {loading ? (
-                                    <Image
-                                        width={40}
-                                        height={40}
-                                        alt='Carregamento'
-                                        src={Loading}>
-                                    </Image>
+                                    <Spinner></Spinner>
                                 ) : (
                                     <div className="w-full">
                                         {showError && <Alert alert="error" text={error} />}

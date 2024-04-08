@@ -87,7 +87,7 @@ export default function Home() {
         </form>
       </div>
       <div className='max-lg:invisible bg-cover lg:bg-logooficial w-[500px] h-[400px] absolute right-40 mt-14'></div>
-      <div className='flex w-screen mt-28 justify-around'>
+      <div className='fixed bottom-0 left-0 w-full flex justify-around'>
         <div>
           <Circle></Circle>
           <p>lorem meu pau 1</p>

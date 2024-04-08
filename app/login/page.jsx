@@ -55,7 +55,7 @@ export default function login() {
 
     return (
         <div className='flex'>
-            <section className="flex w-[50%] mt-12 bg-gray-50 dark:bg-gray-900 max-lg:w-screen justify-center items-center">
+            <section className="flex w-[50%] mt-32 bg-gray-50 dark:bg-gray-900 max-lg:w-screen justify-center items-center">
                 <div className="flex flex-col px-6 py-8 mx-auto lg:py-0 w-[80%] sm:w-[70%] md:w-[60%] lg:w-[75%] justify-center items-center]">
                     <div className="bg-white rounded-lg dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -64,13 +64,13 @@ export default function login() {
                             </h1>
                             <form onSubmit={handleLogin} className="space-y-4 md:space-y-5">
                                 <div className='w-full'>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                     <div className='w-full'>
                                         <Input type="input" text="Email" value={username} onChange={(e) => setUsername(e.target.value)} />
                                     </div>
                                 </div>
                                 <div>
-                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Senha</label>
                                     <Input type="password" text="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </div>
                                 <div className="flex items-center justify-between">
