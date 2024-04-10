@@ -15,11 +15,9 @@ import Paste from '@/public/Paste.png'
 import Copy from '@/public/Copy.png'
 import Alert from './components/Alert';
 import UseCopy from './components/UseCopy';
-import UsePaste from './components/UsePaste';
 
 export default function Home() {
 
-  const pasteFromClipboard = UsePaste();
   const copyToClipboard = UseCopy();
 
   const [showInput, setShowInput] = useState(false);
@@ -69,12 +67,12 @@ export default function Home() {
 
 
   return (
-    <main className='flex flex-col'>
-      <div className='flex container-sm lg:container flex-col p-16'>
-        <form onSubmit={handleLink}>
-          <h1 className='font-montserrat text-5xl'>Encurtador de link</h1>
-          <div className='mt-20 ml-2 w-full '>
-            <div className='w-5/6 sm:w-4/6 md:w-3/6 lg:w-2/6'>
+    <main className='flex'>
+      <div className='flex md:w-1/2 h-[60vh] justify-center items-center'>
+        <form onSubmit={handleLink} className='flex flex-col p-16 '>
+          <h1 className='font-montserrat text-5xl flex justify-center'>Encurtador de link</h1>
+          <div className='flex flex-col items-center mt-16 w-full '>
+            <div className='w-full'>
               <InputWithIcon src={Paste} onChange={(e) => setLongLink(e.target.value)} value={longLink}></InputWithIcon>
               <div className=''>
                 <ButtonLarge text='Encurte seu link aqui'></ButtonLarge>
@@ -86,7 +84,9 @@ export default function Home() {
           </div>
         </form>
       </div>
-      <div className='max-lg:invisible bg-cover lg:bg-logooficial w-[500px] h-[400px] absolute right-40 mt-14'></div>
+      <aside className='flex justify-center items-center w-1/2 h-[60vh] max-lg:w-0 max-lg:hidden'>
+        <div className='max-lg:hidden bg-cover lg:bg-logooficial w-[520px] h-[400px]  mt-14'></div>
+      </aside>
       <div className='fixed bottom-0 left-0 w-full flex justify-around'>
         <div>
           <Circle></Circle>
