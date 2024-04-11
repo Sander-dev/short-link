@@ -87,18 +87,18 @@ export default function Home() {
       <aside className='flex justify-center items-center w-1/2 h-[60vh] max-lg:w-0 max-lg:hidden'>
         <div className='max-lg:hidden bg-cover lg:bg-logooficial w-[520px] h-[400px]  mt-14'></div>
       </aside>
-      <div className='fixed bottom-0 left-0 w-full flex justify-around'>
+      <div className='fixed bottom-8 left-0 w-full flex justify-around'>
         <div>
-          <Circle></Circle>
-          <p>lorem meu pau 1</p>
+          <Circle img="/teste1.png"></Circle>
+          <p></p>
         </div>
         <div>
-          <Circle></Circle>
-          <p>lorem meu pau 2</p>
+          <Circle img="/teste2.png"></Circle>
+          <p></p>
         </div>
         <div>
-          <Circle></Circle>
-          <p>lorem meu pau 3</p>
+          <Circle img="/teste3.png"></Circle>
+          <p></p>
         </div>
       </div>
     </main>
