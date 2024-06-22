@@ -14,6 +14,7 @@ import Paste from "@/public/Paste.png";
 import Copy from "@/public/Copy.png";
 import Alert from "./components/Alert";
 import UseCopy from "./components/UseCopy";
+import getUrl from "./components/useVariables";
 
 export default function Home() {
   const copyToClipboard = UseCopy();
@@ -41,10 +42,7 @@ export default function Home() {
       let response;
       if (access_token) {
         response = await axios.post(
-          "http://127.0.0.1:8000/api/v1/link/shorten-link",
-          {
-            link_long: longLink,
-          },
+          `${getUrl}/api/v1/link/shorten-link?link=${longLink}`,
           {
             headers: {
               Authorization: `Bearer ${access_token}`,
@@ -54,14 +52,12 @@ export default function Home() {
       } else {
         setShowError(false);
         setShowInfo(true);
+
         response = await axios.post(
-          "http://127.0.0.1:8000/api/v1/link/shorten-link-no-auth",
-          {
-            link_long: longLink,
-          }
+          `${getUrl}/api/v1/link/shorten-link-no-auth?link=${longLink}`
         );
       }
-      setShortLink(response.data.link_short);
+      setShortLink(response.data.shortLink);
       setShowInput(true);
       setShowError(false);
     } catch (error) {

@@ -15,7 +15,7 @@ export default function login() {
   const rota = "/";
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
@@ -23,7 +23,7 @@ export default function login() {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    if (!username.trim()) {
+    if (!email.trim()) {
       setError("Campo vazio, insira um email válido para entrar");
       setShowError(true);
       return;
@@ -41,10 +41,10 @@ export default function login() {
       setShowError(false);
       router.push(rota);
 
-      const access_token = response;
+      const access_token = response.data.accessToken;
       localStorage.setItem("access_token", access_token);
     } catch (error) {
-      setError(error.response.data.detail);
+      setError(error.response);
       setShowError(true);
       console.error("Erro ao fazer login:", error);
     }
@@ -71,8 +71,8 @@ export default function login() {
                     <Input
                       type="input"
                       text="Email"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>

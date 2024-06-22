@@ -51,7 +51,7 @@ export default function Register() {
       setShowError(true);
       console.error("Erro ao fazer registro:", error);
     } finally {
-      // router.push(rota);
+      router.push(rota);
     }
   };
 
