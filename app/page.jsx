@@ -61,7 +61,7 @@ export default function Home() {
       setShowInput(true);
       setShowError(false);
     } catch (error) {
-      setError(error.response.data.detail);
+      setError(error.response);
       setShowInput(false);
       setShowError(true);
     }
