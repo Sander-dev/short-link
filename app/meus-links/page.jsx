@@ -1,14 +1,55 @@
 'use client'
 
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Loader from "../components/Loader";
 import LimitPhrase from "../components/LimitPhrase";
 import ButtonClose from "../components/ButtonClose";
+import getUrl from '../components/useVariables';
 
 export default function MyPage() {
     const maxLength = 40;
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const accessToken = window.localStorage.getItem("access_token");
+                const response = await axios.get(`${getUrl}/api/v1/clicks/all`, {
+                    params: {
+                        shortlink: 'vdGNA',
+                        page: 0,
+                        size: 12,
+                        direction: 'asc'
+                    },
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
 
-    const data = Loader();
+                // Adicionando logs para debug
+                console.log(response.data._embedded.clickDTOList);
+
+                if (response.data._embedded.clickDTOList) {
+                    setData(response.data._embedded.clickDTOList);
+                } else {
+                    throw new Error("Estrutura de resposta inesperada");
+                }
+                
+                setLoading(false);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
 
     return (
         <div className="flex justify-center">
@@ -25,41 +66,23 @@ export default function MyPage() {
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr className="border-b dark:border-neutral-500">
-                                    <td className="whitespace-nowrap px-6 py-4 font-medium">111111</td>
-                                    <td className="whitespace-nowrap px-6 py-4 font-medium">222222</td>
-                                    <td className="whitespace-nowrap px-6 py-4">3333333</td>
-                                    <td className="whitespace-nowrap px-6 py-4"><ButtonClose></ButtonClose></td>
-                                </tr>
-
-
-
-                                {/* {data.map((item, index) => (
+                                {data.map((item, index) => (
                                     <tr key={index} className="border-b dark:border-neutral-500">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">111111<a href={item.link_long} target="_blank"><LimitPhrase text={item.link_long} maxLength={maxLength} /></a></td>
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">222222<a href={item.short_link} target="_blank"><LimitPhrase text={item.short_link} maxLength={maxLength} /></a></td>
-                                        <td className="whitespace-nowrap px-6 py-4">3333333{item.qtd_clicks}</td>
-                                        <td className="whitespace-nowrap px-6 py-4"><ButtonClose></ButtonClose></td>
-
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                            <a href={item.linkLong} target="_blank" rel="noopener noreferrer">
+                                                <LimitPhrase text={item.linkLong} maxLength={maxLength} />
+                                            </a>
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                            <a href={item.shortLink} target="_blank" rel="noopener noreferrer">
+                                                <LimitPhrase text={item.shortLink} maxLength={maxLength} />
+                                            </a>
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4">{item.qtdClicks}</td>
+                                        <td className="whitespace-nowrap px-6 py-4"><ButtonClose /></td>
                                     </tr>
-                                ))} */}
+                                ))}
                             </tbody>
-                        </table>
-
-                        <table className="border-collapse border rounded-lg">
-                            <tr className="border-collapse border rounded-lg">
-                                <th>titulo</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                            </tr>
-                            <tr>
-                                <td>descrição</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -67,6 +90,3 @@ export default function MyPage() {
         </div>
     );
 }
-
-
-
