@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import Image from "next/image";
 import LogoSmallW from "@/public/LogoSmallW.png";
@@ -9,8 +10,16 @@ import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
-  const access_token = localStorage.getItem("access_token");
+  const [accessToken, setAccessToken] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("access_token");
+      setAccessToken(token);
+    }
+  }, []);
+
   return (
     <div className="flex bg-gradient-to-t from-blak to-brown items-center h-24 w-screen">
       {/* LOGO CAPI CLOUD HEADER */}
@@ -30,7 +39,7 @@ export default function Header() {
             <Button route="/quem-somos" text="Quem Somos"></Button>
           </div>
           <div>
-            {pathname === "/login" || access_token ? (
+            {pathname === "/login" || accessToken ? (
               ""
             ) : (
               <Button route="/login" text="Entrar" />
