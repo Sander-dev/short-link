@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 // tw-elements
@@ -25,6 +25,14 @@ export default function Home() {
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = window.localStorage.getItem("access_token");
+      setAccessToken(token);
+    }
+  }, []);
 
   const handleLink = async (event) => {
     event.preventDefault();
@@ -38,14 +46,14 @@ export default function Home() {
     }
 
     try {
-      const access_token = window.localStorage.getItem("access_token");
       let response;
-      if (access_token) {
+      if (accessToken) {
         response = await axios.post(
           `${getUrl}/api/v1/link/shorten-link?link=${longLink}`,
+          {},
           {
             headers: {
-              Authorization: `Bearer ${access_token}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           }
         );
@@ -61,7 +69,10 @@ export default function Home() {
       setShowInput(true);
       setShowError(false);
     } catch (error) {
-      setError(error.response);
+      const errorMessage = error.response && error.response.data && error.response.data.message 
+        ? error.response.data.message 
+        : error.message;
+      setError(errorMessage);
       setShowInput(false);
       setShowError(true);
     }
