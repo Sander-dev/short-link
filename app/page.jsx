@@ -69,9 +69,10 @@ export default function Home() {
       setShowInput(true);
       setShowError(false);
     } catch (error) {
-      const errorMessage = error.response && error.response.data && error.response.data.message 
-        ? error.response.data.message 
-        : error.message;
+      const errorMessage =
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message;
       setError(errorMessage);
       setShowInput(false);
       setShowError(true);

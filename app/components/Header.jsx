@@ -4,20 +4,33 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Image from "next/image";
 import LogoSmallW from "@/public/LogoSmallW.png";
-
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
-  const [accessToken, setAccessToken] = useState(null);
   const router = useRouter();
 
+  const [token, setToken] = useState(null);
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("access_token");
-      setAccessToken(token);
-    }
+    const storedToken = window.localStorage.getItem("access_token");
+    setToken(storedToken);
+
+    const handleStorageChange = () => {
+      const newToken = window.localStorage.getItem("access_token");
+      setToken(newToken);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    // Adiciona listener para evento de login
+    window.addEventListener("loginEvent", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("loginEvent", handleStorageChange);
+    };
   }, []);
 
   return (
@@ -39,9 +52,8 @@ export default function Header() {
             <Button route="/quem-somos" text="Quem Somos"></Button>
           </div>
           <div>
-            {pathname === "/login" || accessToken ? (
-              ""
-            ) : (
+            {token ? <Button route="/meus-links" text="Meus Links" /> : null}
+            {pathname === "/login" || token ? null : (
               <Button route="/login" text="Entrar" />
             )}
           </div>

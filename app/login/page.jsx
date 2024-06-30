@@ -39,10 +39,15 @@ export default function login() {
         password: password,
       });
       setShowError(false);
-      router.push(rota);
 
       const access_token = response.data.accessToken;
       localStorage.setItem("access_token", access_token);
+
+      // Dispara o evento de login
+      const loginEvent = new Event("loginEvent");
+      window.dispatchEvent(loginEvent);
+
+      router.push(rota);
     } catch (error) {
       setError(error.response);
       setShowError(true);

@@ -6,7 +6,13 @@ import Loader from "../components/Loader";
 import LimitPhrase from "../components/LimitPhrase";
 import ButtonClose from "../components/ButtonClose";
 import getUrl from "../components/useVariables";
-import Link from "next/link";
+import ButtonView from "../components/ButtonView";
+
+const extractLinkParam = (shortLink) => {
+  shortLink.slice(0, 28);
+  shortLink.filter("/");
+  return shortLink;
+};
 
 export default function MyPage() {
   const maxLength = 40;
@@ -55,31 +61,37 @@ export default function MyPage() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex justify-center">
-      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 w-[80%]">
+    <div className="flex justify-center m-10">
+      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 w-[85%]">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-          <div className="overflow-hidden">
-            <table className="min-w-full text-center text-sm border-collapse border rounded-lg">
-              <thead className="border-b bg-neutral-50 font-medium dark:border-neutral-500 dark:text-neutral-800">
+          <div className="overflow-hidden rounded-md">
+            <table className="min-w-full text-center text-sm border-collapse border-none">
+              <thead className="shadow-inner text-white text-xl bg-gradient-to-bl from-brown to-blak font-medium dark:border-neutral-500 dark:text-neutral-800 ">
                 <tr>
-                  <th scope="col" className="px-6 py-4">
+                  <th scope="col" className="px-6 py-6">
                     Link Longo
                   </th>
-                  <th scope="col" className="px-6 py-4">
+                  <th scope="col" className="px-6 py-6">
                     Link Encurtado
                   </th>
-                  <th scope="col" className="px-6 py-4">
+                  <th scope="col" className="px-6 py-6">
                     Cliques
                   </th>
-                  <th scope="col" className="px-6 py-4">
+                  <th scope="col" className="px-6 py-6">
                     Excluir
+                  </th>
+                  <th scope="col" className="px-6 py-6">
+                    Infos
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((item, index) => (
-                  <tr key={index} className="border-b dark:border-neutral-500">
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">
+                  <tr
+                    key={index}
+                    className="border-b dark:border-neutral-500 ease-in-out hover:bg-[#d9d9d9] hover:shadow-lg duration-200"
+                  >
+                    <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       <a
                         href={item.linkLong}
                         target="_blank"
@@ -91,7 +103,7 @@ export default function MyPage() {
                         />
                       </a>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">
+                    <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       <a
                         href={item.shortLink}
                         target="_blank"
@@ -103,13 +115,15 @@ export default function MyPage() {
                         />
                       </a>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       {item.qtdClick}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       <ButtonClose />
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">linkar</td>
+                    <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
+                      <ButtonView />
+                    </td>
                   </tr>
                 ))}
               </tbody>
