@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   TERipple,
   TEModal,
@@ -10,6 +10,7 @@ import {
   TEModalFooter,
 } from "tw-elements-react";
 import getUrl from "./useVariables";
+import { useRouter } from "next/navigation";
 
 const logoutUser = () => {
   const token = window.localStorage.getItem("access_token");
@@ -21,15 +22,11 @@ const logoutUser = () => {
 const deleteLink = async (shortLink) => {
   const accessToken = window.localStorage.getItem("access_token");
   try {
-    const response = await axios.post(
-      `${getUrl}/${shortLink}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await axios.delete(`${getUrl}/${shortLink}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     console.log(response);
   } catch (err) {
@@ -50,12 +47,14 @@ const setContext = (context) => {
 
     const buttonName = "Sair";
     const buttonAction = logoutUser;
+    const route = "/";
 
     const modalContent = {
       title,
       body,
       buttonName,
       buttonAction,
+      route,
     };
 
     return modalContent;
@@ -69,11 +68,14 @@ const setContext = (context) => {
     );
     const buttonName = "Excluir";
     const buttonAction = deleteLink;
+    const route = "/meus-links";
+
     const modalContent = {
       title,
       body,
       buttonName,
       buttonAction,
+      route,
     };
 
     return modalContent;
@@ -87,6 +89,13 @@ export default function Modal({
   setShowModal,
 }) {
   const constructModal = setContext(context);
+  const router = useRouter();
+  const handleAction = () => {
+    setShowModal(false);
+    constructModal.buttonAction(idShortLink ? idShortLink : null);
+    router.push(constructModal.route);
+    window.location.reload();
+  };
 
   return (
     <div>
@@ -133,13 +142,8 @@ export default function Modal({
               <TERipple rippleColor="light">
                 <button
                   type="button"
-                  className="ml-1 inline-block rounded bg-danger px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                  onClick={() => {
-                    setShowModal(false);
-                    constructModal.buttonAction(
-                      idShortLink ? idShortLink : null
-                    );
-                  }}
+                  className="ml-1 inline-block rounded bg-danger px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                  onClick={handleAction}
                 >
                   {constructModal.buttonName}
                 </button>
