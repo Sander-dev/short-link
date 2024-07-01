@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Modal from "./Modal";
 import Button from "./Button";
 import Image from "next/image";
 import LogoSmallW from "@/public/LogoSmallW.png";
@@ -47,7 +48,7 @@ export default function Header() {
         </a>
       </div>
       <div className="flex justify-end w-screen">
-        <div className="flex mr-16 lg:mr-20">
+        <div className="flex mr-16 lg:mr-20 ">
           <div className="max-sm:hidden mr-10">
             <Button route="/quem-somos" text="Quem Somos"></Button>
           </div>
@@ -57,6 +58,9 @@ export default function Header() {
               <Button route="/login" text="Entrar" />
             )}
           </div>
+        </div>
+        <div className="mr-10 -ml-8">
+          {token ? <Button text="Sair" /> : null}
         </div>
       </div>
     </div>
