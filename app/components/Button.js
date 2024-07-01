@@ -7,7 +7,7 @@ import Modal from "./Modal";
 export default function Button(props) {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
-
+  const context = props.text;
   const handleButtonClick = () => {
     if (props.route) {
       router.push(props.route);
@@ -26,7 +26,13 @@ export default function Button(props) {
         {props.text}
       </button>
 
-      {showModal && <Modal showModal={showModal} setShowModal={setShowModal} />}
+      {showModal && (
+        <Modal
+          context={context}
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
     </>
   );
 }

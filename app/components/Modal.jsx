@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   TERipple,
   TEModal,
@@ -8,8 +9,85 @@ import {
   TEModalBody,
   TEModalFooter,
 } from "tw-elements-react";
+import getUrl from "./useVariables";
 
-export default function Modal({ showModal, setShowModal }) {
+const logoutUser = () => {
+  const token = window.localStorage.getItem("access_token");
+  if (token) {
+    localStorage.removeItem("access_token");
+  }
+};
+
+const deleteLink = async (shortLink) => {
+  const accessToken = window.localStorage.getItem("access_token");
+  try {
+    const response = await axios.post(
+      `${getUrl}/${shortLink}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const setContext = (context) => {
+  if (context === "Sair") {
+    const title = "Você está saindo";
+    const body = (
+      <div className="text-wrap text-secondary-900 font-normal">
+        Ao clicar em sair, você está ciente de que terá de fazer o login
+        novamente, para verificar seus links criados e obter informações dos
+        respectivos links.
+      </div>
+    );
+
+    const buttonName = "Sair";
+    const buttonAction = logoutUser;
+
+    const modalContent = {
+      title,
+      body,
+      buttonName,
+      buttonAction,
+    };
+
+    return modalContent;
+  } else {
+    const title = "Você está apagando um Link";
+    const body = (
+      <div className="text-wrap text-secondary-900 font-normal">
+        Ao clicar em excluir, você vai perder o acesso de verificação deste link
+        criado. Você tem certeza dessa ação?
+      </div>
+    );
+    const buttonName = "Excluir";
+    const buttonAction = deleteLink;
+    const modalContent = {
+      title,
+      body,
+      buttonName,
+      buttonAction,
+    };
+
+    return modalContent;
+  }
+};
+
+export default function Modal({
+  context,
+  idShortLink,
+  showModal,
+  setShowModal,
+}) {
+  const constructModal = setContext(context);
+
   return (
     <div>
       <TEModal show={showModal} setShow={setShowModal}>
@@ -17,7 +95,7 @@ export default function Modal({ showModal, setShowModal }) {
           <TEModalContent>
             <TEModalHeader>
               <h5 className="text-xl font-bold leading-normal dark:text-neutral-200 text-danger-700">
-                Você está saindo
+                {constructModal.title}
               </h5>
               <button
                 type="button"
@@ -41,11 +119,7 @@ export default function Modal({ showModal, setShowModal }) {
                 </svg>
               </button>
             </TEModalHeader>
-            <TEModalBody>
-              Ao clicar em sair, você está ciente de que terá de fazer o login
-              novamente, para verificar seus links criados e obter informações
-              dos respectivos links.
-            </TEModalBody>
+            <TEModalBody>{constructModal.body}</TEModalBody>
             <TEModalFooter>
               <TERipple rippleColor="light">
                 <button
@@ -60,8 +134,14 @@ export default function Modal({ showModal, setShowModal }) {
                 <button
                   type="button"
                   className="ml-1 inline-block rounded bg-danger px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                  onClick={() => {
+                    setShowModal(false);
+                    constructModal.buttonAction(
+                      idShortLink ? idShortLink : null
+                    );
+                  }}
                 >
-                  Sair
+                  {constructModal.buttonName}
                 </button>
               </TERipple>
             </TEModalFooter>

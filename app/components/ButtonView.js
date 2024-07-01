@@ -3,7 +3,7 @@ export default function ButtonView() {
     <>
       <button
         type="button"
-        className={`bg-white rounded px-3 py-3 text-base font-medium leading-normal text-[#000000] shadow-md transition duration-150 ease-in-out hover:bg-brown hover:text-white hover:shadow-lg focus:bg-buttonColor focus:shadow-xl focus:outline-none focus:ring-0 active:bg-[#bababa] active:shadow-xl dark:shadow-md dark:hover:shadow-lg dark:focus:shadow-xl dark:active:shadow-xl`}
+        className={`bg-primary-400 rounded px-3 py-3 text-base font-medium leading-normal text-[#000000] shadow-md transition duration-150 ease-in-out hover:bg-primary hover:text-white hover:shadow-lg focus:bg-buttonColor focus:shadow-xl focus:outline-none focus:ring-0 active:bg-[#bababa] active:shadow-xl dark:shadow-md dark:hover:shadow-lg dark:focus:shadow-xl dark:active:shadow-xl`}
       >
         <span className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
           <svg

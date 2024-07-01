@@ -8,10 +8,9 @@ import ButtonClose from "../components/ButtonClose";
 import getUrl from "../components/useVariables";
 import ButtonView from "../components/ButtonView";
 
-const extractLinkParam = (shortLink) => {
-  shortLink.slice(0, 28);
-  shortLink.filter("/");
-  return shortLink;
+const extractIdFromUrl = (url) => {
+  const parts = url.split("/");
+  return parts[parts.length - 2];
 };
 
 export default function MyPage() {
@@ -119,7 +118,9 @@ export default function MyPage() {
                       {item.qtdClick}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
-                      <ButtonClose />
+                      <ButtonClose
+                        idShortLink={extractIdFromUrl(item.shortLink)}
+                      />
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       <ButtonView />

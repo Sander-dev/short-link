@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Modal from "./Modal";
 import Button from "./Button";
 import Image from "next/image";
 import LogoSmallW from "@/public/LogoSmallW.png";
