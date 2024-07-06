@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Loader from "../components/Loader";
 import LimitPhrase from "../components/LimitPhrase";
 import ButtonClose from "../components/ButtonClose";
 import getUrl from "../components/useVariables";
@@ -37,9 +36,6 @@ export default function MyPage() {
           }
         );
 
-        // Adicionando logs para debug
-        console.log(response.data.content);
-
         if (response.data.content) {
           setData(response.data.content);
         } else {
@@ -55,6 +51,12 @@ export default function MyPage() {
 
     fetchData();
   }, []);
+
+  const handleDelete = (idShortLink) => {
+    setData((prevData) =>
+      prevData.filter((item) => extractIdFromUrl(item.shortLink) !== idShortLink)
+    );
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -120,6 +122,7 @@ export default function MyPage() {
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       <ButtonClose
                         idShortLink={extractIdFromUrl(`${item.shortLink}`)}
+                        onDelete={handleDelete}
                       />
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">

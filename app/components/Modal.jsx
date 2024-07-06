@@ -87,14 +87,14 @@ export default function Modal({
   idShortLink,
   showModal,
   setShowModal,
+  onDelete
 }) {
   const constructModal = setContext(context);
   const router = useRouter();
-  const handleAction = () => {
+  const handleAction = async () => {
     setShowModal(false);
-    constructModal.buttonAction(idShortLink ? idShortLink : null);
-    router.push(constructModal.route);
-    window.location.reload();
+    await constructModal.buttonAction(idShortLink ? idShortLink : null);
+    onDelete(idShortLink);
   };
 
   return (
