@@ -119,7 +119,7 @@ export default function MyPage() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       <ButtonClose
-                        idShortLink={extractIdFromUrl(item.shortLink)}
+                        idShortLink={extractIdFromUrl(`${item.shortLink}`)}
                       />
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
