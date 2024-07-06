@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "./Modal";
@@ -8,6 +6,7 @@ export default function Button(props) {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const context = props.text;
+
   const handleButtonClick = () => {
     if (props.route) {
       router.push(props.route);
@@ -31,6 +30,7 @@ export default function Button(props) {
           context={context}
           showModal={showModal}
           setShowModal={setShowModal}
+          onDelete={context === "Excluir" ? props.onDelete : null}
         />
       )}
     </>

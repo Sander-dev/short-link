@@ -40,5 +40,3 @@ export default function ButtonClose({ idShortLink, onDelete }) {
     </>
   );
 }
-
-

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import {
   TERipple,
   TEModal,
@@ -22,13 +22,11 @@ const logoutUser = () => {
 const deleteLink = async (shortLink) => {
   const accessToken = window.localStorage.getItem("access_token");
   try {
-    const response = await axios.delete(`${getUrl}/${shortLink}`, {
+    await axios.delete(`${getUrl}/${shortLink}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
-    console.log(response);
   } catch (err) {
     console.log(err);
   }
@@ -49,15 +47,7 @@ const setContext = (context) => {
     const buttonAction = logoutUser;
     const route = "/";
 
-    const modalContent = {
-      title,
-      body,
-      buttonName,
-      buttonAction,
-      route,
-    };
-
-    return modalContent;
+    return { title, body, buttonName, buttonAction, route };
   } else {
     const title = "Você está apagando um Link";
     const body = (
@@ -70,15 +60,7 @@ const setContext = (context) => {
     const buttonAction = deleteLink;
     const route = "/meus-links";
 
-    const modalContent = {
-      title,
-      body,
-      buttonName,
-      buttonAction,
-      route,
-    };
-
-    return modalContent;
+    return { title, body, buttonName, buttonAction, route };
   }
 };
 
@@ -87,14 +69,21 @@ export default function Modal({
   idShortLink,
   showModal,
   setShowModal,
-  onDelete
+  onDelete,
 }) {
   const constructModal = setContext(context);
   const router = useRouter();
+
   const handleAction = async () => {
     setShowModal(false);
     await constructModal.buttonAction(idShortLink ? idShortLink : null);
-    onDelete(idShortLink);
+    if (onDelete && typeof onDelete === "function") {
+      onDelete(idShortLink);
+    }
+    if (context === "Sair") {
+      router.push(constructModal.route);
+      window.location.reload();
+    }
   };
 
   return (
