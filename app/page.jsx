@@ -15,6 +15,7 @@ import Copy from "@/public/Copy.png";
 import Alert from "./components/Alert";
 import UseCopy from "./components/UseCopy";
 import getUrl from "./components/useVariables";
+import CountLinks from "./components/CountLinks";
 
 export default function Home() {
   const copyToClipboard = UseCopy();
@@ -81,7 +82,7 @@ export default function Home() {
 
   return (
     <main className="flex items-center justify-center">
-      <div className="flex lg:w-1/2 md:w-full h-[60vh] justify-center items-center">
+      <div className="flex lg:w-1/2 md:w-full h-[60vh] justify-center items-center flex-col">
         <form onSubmit={handleLink} className="flex flex-col lg:m-16 m-1">
           <h1 className="font-montserrat text-5xl flex justify-center">
             Encurtador de link
@@ -114,6 +115,7 @@ export default function Home() {
             </div>
           </div>
         </form>
+        <CountLinks></CountLinks>
       </div>
       <aside className="flex justify-center items-center w-1/2 h-[60vh] max-lg:w-0 max-lg:hidden">
         <div className="max-lg:hidden bg-cover lg:bg-logooficial w-[520px] h-[400px]  mt-14"></div>
