@@ -1,3 +1,3 @@
-const getUrl = `https://link-shortener-tracking.onrender.com`;
+const getUrl = `https://capi-zip.onrender.com`;
 
 export default getUrl;
