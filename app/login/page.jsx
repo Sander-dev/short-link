@@ -11,7 +11,7 @@ import LinkPhrase from "../components/LinkPhrase";
 import Alert from "../components/Alert";
 import getUrl from "../components/useVariables";
 
-export default function login() {
+export default function Login() {
   const rota = "/";
   const router = useRouter();
 
@@ -56,9 +56,9 @@ export default function login() {
   };
 
   return (
-    <div className="flex">
-      <section className="flex w-[50%] mt-32 bg-gray-50 dark:bg-gray-900 max-lg:w-screen justify-center items-center">
-        <div className="flex flex-col px-6 py-8 mx-auto lg:py-0 w-[80%] sm:w-[70%] md:w-[60%] lg:w-[75%] justify-center items-center]">
+    <div className="flex min-h-[calc(100vh-96px)]">
+      <section className="flex w-[50%] bg-gray-50 dark:bg-gray-900 max-lg:w-screen justify-center items-center">
+        <div className="flex flex-col px-6 py-8 mx-auto lg:py-0 w-[80%] sm:w-[70%] md:w-[60%] lg:w-[75%] justify-center items-center">
           <div className="bg-white rounded-lg dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
