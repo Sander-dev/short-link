@@ -58,7 +58,7 @@ export default function Login() {
   return (
     <div className="flex min-h-[calc(100vh-96px)]">
       <section className="flex w-[50%] bg-gray-50 dark:bg-gray-900 max-lg:w-screen justify-center items-center">
-        <div className="flex flex-col px-6 py-8 mx-auto lg:py-0 w-[80%] sm:w-[70%] md:w-[60%] lg:w-[75%] justify-center items-center">
+        <div className="flex flex-col px-6 py-8 mx-auto lg:py-0 w-[100%] sm:w-[70%] md:w-[60%] lg:w-[75%] justify-center items-center">
           <div className="bg-white rounded-lg dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
