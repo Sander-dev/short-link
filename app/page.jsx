@@ -81,13 +81,13 @@ export default function Home() {
   };
 
   return (
-    <main className="flex items-center justify-center">
-      <div className="flex lg:w-1/2 md:w-full h-[60vh] justify-center items-center flex-col">
-        <form onSubmit={handleLink} className="flex flex-col lg:m-16 m-1">
+    <main className="flex-col items-center justify-center min-h-[calc(100vh-96px)]">
+      <div className="flex md:w-full h-[70vh] justify-center items-center">
+        <form onSubmit={handleLink} className="flex flex-col lg:mx-8 m-2 lg:w-1/2">
           <h1 className="font-montserrat text-5xl flex justify-center">
             Encurtador de link
           </h1>
-          <div className="flex flex-col items-center mt-16 w-full ">
+          <div className="flex flex-col items-center mt-16 w-full lg:px-10">
             <div className="w-full">
               <InputWithIcon
                 src={Paste}
@@ -115,11 +115,10 @@ export default function Home() {
             </div>
           </div>
         </form>
-        <CountLinks></CountLinks>
+        <aside className="flex justify-center items-center w-1/2 h-[60vh] max-lg:w-0 max-lg:hidden">
+          <div className="max-lg:hidden bg-cover lg:bg-logooficial w-[520px] h-[400px]"></div>
+        </aside>
       </div>
-      <aside className="flex justify-center items-center w-1/2 h-[60vh] max-lg:w-0 max-lg:hidden">
-        <div className="max-lg:hidden bg-cover lg:bg-logooficial w-[520px] h-[400px]  mt-14"></div>
-      </aside>
       <div className="fixed bottom-8 left-0 w-full flex justify-around">
         <div>
           <Circle img="/teste1.png"></Circle>
