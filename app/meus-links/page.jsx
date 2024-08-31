@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import LimitPhrase from "../components/LimitPhrase";
@@ -106,7 +107,7 @@ export default function MyPage() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
                       <a
-                        href={item.shortLink}
+                          href={item.shortLink}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -126,7 +127,7 @@ export default function MyPage() {
                       />
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-semibold text-base">
-                      <ButtonView />
+                    <ButtonView route={`/meus-links/info?shortLink=${encodeURIComponent(item.shortLink)}`} />
                     </td>
                   </tr>
                 ))}

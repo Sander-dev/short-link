@@ -1,7 +1,19 @@
-export default function ButtonView() {
+import { useRouter } from "next/navigation";
+export default function ButtonView({ route  }) {
+
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    if (route) {
+      router.push(route);
+    } else {
+      setShowModal(true);
+    }
+  };
   return (
     <>
       <button
+        onClick={handleButtonClick}
         type="button"
         className={`bg-primary-400 rounded px-3 py-3 text-base font-medium leading-normal text-[#000000] shadow-md transition duration-150 ease-in-out hover:bg-primary hover:text-white hover:shadow-lg focus:bg-buttonColor focus:shadow-xl focus:outline-none focus:ring-0 active:bg-[#bababa] active:shadow-xl dark:shadow-md dark:hover:shadow-lg dark:focus:shadow-xl dark:active:shadow-xl`}
       >

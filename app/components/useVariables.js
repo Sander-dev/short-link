@@ -1,3 +1,3 @@
-const getUrl = `https://capi-zip.onrender.com`;
+const getUrl = `http://localhost:8090`;
 
 export default getUrl;

@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -49,7 +49,9 @@ export default function Login() {
 
       router.push(rota);
     } catch (error) {
-      setError(error.response);
+      // Ajuste para capturar uma mensagem de erro apropriada
+      const errorMessage = error.response?.data?.message || "Erro ao fazer login";
+      setError(errorMessage);
       setShowError(true);
       console.error("Erro ao fazer login:", error);
     }
@@ -106,7 +108,7 @@ export default function Login() {
                   route="/forgot-password"
                   text="Esqueceu a Senha?"
                 ></LinkPhrase>
-                <div>{showError && <Alert alert="error" text={error} />}</div>
+                {showError && <Alert alert="error" text={error} />}
               </form>
             </div>
           </div>

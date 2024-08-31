@@ -19,35 +19,8 @@ export default function MyPage() {
                     </h1>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-10">
                         {data.map((item, index) => (
-                            <Card link_short={item.link_short_id} user_agent={item.user_agent} ip={item.ip} localization={item.localization} data={item.created_at}></Card>
+                            <Card  user_agent={item.user_agent} ip={item.ip} localization={item.localization} data={item.dateCreated}></Card>
                         ))}
-
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-                                <Card></Card>
-
                     </div>
                 </div>
             </div>
